@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Trust Briefing | June 2026 | Synergy Media</title>
+<style>
+  /* ── RESET & BASE ───────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  /* ── TOKENS ────────────────────────────────────── */
+  :root {
+    --navy:       #0A2240;
+    --navy-mid:   #0d2d54;
+    --navy-light: #d6e4f0;
+    --gold:       #C9A84C;
+    --gold-light: #f5edd3;
+    --gold-pale:  #fdf8ee;
+    --white:      #ffffff;
+    --ink:        #1a1a1a;
+    --muted:      #555555;
+    --rule:       #e0e0e0;
+
+    --font-display: 'Georgia', 'Times New Roman', serif;
+    --font-body:    'Arial', 'Helvetica Neue', sans-serif;
+
+    --max-w: 860px;
+    --col-gap: 2rem;
+  }
+
+  body {
+    background: #f2f2f0;
+    font-family: var(--font-body);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── UTILITY ───────────────────────────────────── */
+  .visually-hidden { position: absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+  /* ── TOPBAR ────────────────────────────────────── */
+  .topbar {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: .55rem 1rem;
+    font-family: var(--font-body);
+  }
+
+  /* ── COVER ─────────────────────────────────────── */
+  .cover {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 3.5rem 2rem 3rem;
+    position: relative;
+    z-index: 2;
+  }
+  .cover-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .cover-brand {
+    font-size: 13px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: var(--font-body);
+  }
+  .cover-pill {
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: .25rem .75rem;
+    border-radius: 2px;
+  }
+  .cover-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    margin-bottom: .6rem;
+  }
+  .cover-title span {
+    color: var(--gold);
+  }
+  .cover-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,.72);
+    letter-spacing: .04em;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-body);
+  }
+  .cover-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
+    padding-left: 1.2rem;
+    line-height: 1.5;
+    max-width: 620px;
+  }
+  .cover-meta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,.15);
+    padding-top: 1.5rem;
+  }
+  .cover-meta-item {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+  }
+  .cover-meta-item strong {
+    display: block;
+    color: var(--white);
+    font-size: 13px;
+    letter-spacing: .08em;
+    margin-bottom: .1rem;
+  }
+  /* geometric accent */
+  .cover::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 420px;
+    height: 420px;
+    border: 60px solid rgba(201,168,76,.08);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    right: 80px;
+    bottom: -80px;
+    width: 260px;
+    height: 260px;
+    border: 40px solid rgba(201,168,76,.05);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── NAV / TOC ─────────────────────────────────── */
+  .toc-bar {
+    background: var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .toc-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-inner::-webkit-scrollbar { display:none; }
+  .toc-link {
+    display: inline-block;
+    padding: .85rem 1.1rem;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: border-color .2s, color .2s;
+  }
+  .toc-link:hover { border-bottom-color: var(--navy); }
+
+  /* ── WRAPPER ───────────────────────────────────── */
+  .magazine {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ── SECTION LABELS ────────────────────────────── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3.5rem 0 1.5rem;
+  }
+  .section-label-text {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--navy);
+    padding: .35rem 1rem;
+  }
+  .section-label-text.gold {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .section-label-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── ARTICLE CARDS ─────────────────────────────── */
+  .article {
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .article:last-child { border-bottom: none; }
+
+  .article-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: .4rem;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.25;
+    margin-bottom: .5rem;
+  }
+  .article-deck {
+    font-style: italic;
+    color: var(--gold);
+    font-size: .95rem;
+    margin-bottom: 1.4rem;
+    font-family: var(--font-display);
+  }
+  .article p {
+    margin-bottom: 1rem;
+    color: var(--ink);
+    font-size: .97rem;
+  }
+  .article p:last-child { margin-bottom: 0; }
+
+  /* sub-heading within article */
+  .article h4 {
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin: 1.6rem 0 .6rem;
+    padding-left: .75rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ── CALLOUT QUOTE ─────────────────────────────── */
+  .callout {
+    background: var(--gold-pale);
+    border-left: 4px solid var(--gold);
+    padding: 1.2rem 1.4rem;
+    margin: 1.6rem 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--navy);
+    line-height: 1.55;
+  }
+
+  /* ── MY TAKE BOX ───────────────────────────────── */
+  .my-take {
+    background: var(--navy);
+    color: var(--white);
+    padding: 1.2rem 1.4rem;
+    margin: 1.6rem 0 0;
+    position: relative;
+  }
+  .my-take-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: .5rem;
+  }
+  .my-take p {
+    color: rgba(255,255,255,.88) !important;
+    font-size: .93rem !important;
+    margin: 0 !important;
+  }
+
+  /* ── STATS GRID ────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    margin: 1.8rem 0;
+    border: 1px solid var(--rule);
+  }
+  .stat-cell {
+    background: var(--white);
+    padding: 1.2rem 1rem;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: .4rem;
+  }
+  .stat-value span { color: var(--gold); }
+  .stat-desc {
+    font-size: .78rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── REFLECTION BLOCK ──────────────────────────── */
+  .reflection {
+    background: var(--navy);
+    color: var(--white);
+    padding: 2.5rem 2rem;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .reflection::before {
+    content: '\201C';
+    position: absolute;
+    top: -1rem;
+    left: 1rem;
+    font-size: 12rem;
+    font-family: var(--font-display);
+    color: rgba(201,168,76,.12);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .reflection-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .reflection h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 3vw, 1.45rem);
+    color: var(--white);
+    line-height: 1.4;
+    margin-bottom: 1.2rem;
+  }
+  .reflection p {
+    color: rgba(255,255,255,.82);
+    font-size: .95rem;
+    margin-bottom: 1rem;
+  }
+  .reflection .motto {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(201,168,76,.3);
+  }
+  .reflection .byline {
+    font-size: .82rem;
+    color: rgba(255,255,255,.5);
+    margin-top: .5rem;
+    letter-spacing: .04em;
+  }
+
+  /* ── QUICK TAKES ───────────────────────────────── */
+  .quick-takes {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    margin: 3rem 0;
+  }
+  .qt-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 1.4rem;
+    padding-bottom: .75rem;
+    border-bottom: 2px solid var(--gold);
+  }
+  .qt-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: .9rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .qt-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .qt-num {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: .8rem;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: .1rem;
+  }
+  .qt-text {
+    font-size: .9rem;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  .mag-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,.6);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    font-size: .8rem;
+    letter-spacing: .04em;
+  }
+  .mag-footer .brand {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: .4rem;
+  }
+  .mag-footer .tagline {
+    color: rgba(255,255,255,.5);
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-family: var(--font-display);
+  }
+  .mag-footer .sig-line {
+    color: var(--gold);
+    font-size: .75rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+  }
+
+  /* ── SHARE STRIP ───────────────────────────────── */
+  .share-strip {
+    background: var(--gold-pale);
+    border-top: 2px solid var(--gold);
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .share-text {
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .share-btns {
+    display: flex;
+    gap: .6rem;
+  }
+  .share-btn {
+    display: inline-block;
+    padding: .45rem 1rem;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-body);
+    transition: opacity .2s;
+  }
+  .share-btn:hover { opacity: .85; }
+  .share-btn.linkedin { background: #0077b5; color: #fff; }
+  .share-btn.facebook { background: #1877f2; color: #fff; }
+  .share-btn.copy     { background: var(--navy); color: var(--gold); }
+  .copy-toast {
+    display: none;
+    font-size: .75rem;
+    color: var(--navy);
+    font-weight: 700;
+  }
+  .copy-toast.show { display: inline; }
+
+  /* ── RESPONSIVE ────────────────────────────────── */
+  @media (max-width: 640px) {
+    .cover-inner { padding: 2.5rem 1.2rem 2rem; }
+    .magazine { padding: 0 1.2rem 3rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .cover-meta { gap: 1.2rem; }
+    .share-strip { padding: 1rem 1.2rem; }
+  }
+
+  /* ── PRINT / PDF EXPORT ────────────────────────── */
+  @media print {
+    .toc-bar, .share-strip, .topbar { display: none; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .reflection, .my-take { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  /* ── SCROLL REVEAL ─────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">Communication · Leadership · Governance &nbsp;|&nbsp; Synergy Media &nbsp;|&nbsp; Nairobi, Kenya</div>
+
+<!-- COVER -->
+<header class="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">
+      <span class="cover-brand">Synergy Media</span>
+      <span class="cover-pill">June 2026</span>
+    </div>
+    <h1 class="cover-title">The <span>Trust</span><br>Briefing</h1>
+    <p class="cover-subtitle">Monthly Insights on Communication · Leadership · Governance</p>
+    <blockquote class="cover-tagline">
+      "The world is not short of leaders. It is short of leaders who build trust before they demand it."
+    </blockquote>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>Moses Wasamu</strong>The Architect</div>
+      <div class="cover-meta-item"><strong>Edition</strong>June 2026</div>
+      <div class="cover-meta-item"><strong>Coverage</strong>Global · Africa · Kenya</div>
+      <div class="cover-meta-item"><strong>Topics</strong>Leadership · Governance · Communication</div>
+    </div>
+  </div>
+</header>
+
+<!-- STICKY TOC NAV -->
+<nav class="toc-bar" aria-label="Sections">
+  <div class="toc-inner">
+    <a class="toc-link" href="#global">Global Focus</a>
+    <a class="toc-link" href="#africa">Africa Spotlight</a>
+    <a class="toc-link" href="#kenya">Kenya Watch</a>
+    <a class="toc-link" href="#reflection">Reflection</a>
+    <a class="toc-link" href="#quicktakes">Quick Takes</a>
+  </div>
+</nav>
+
+<!-- SHARE STRIP -->
+<div class="share-strip">
+  <span class="share-text">Share this edition</span>
+  <div class="share-btns">
+    <a class="share-btn linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=https://synergymedia.co.ke/trust-briefing-june-2026" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://synergymedia.co.ke/trust-briefing-june-2026" target="_blank" rel="noopener">Facebook</a>
+    <button class="share-btn copy" onclick="copyLink(this)">Copy Link</button>
+    <span class="copy-toast" id="copyToast">Copied!</span>
+  </div>
+</div>
+
+<!-- MAGAZINE BODY -->
+<main class="magazine">
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- GLOBAL FOCUS                                   -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="global" class="section-label reveal">
+    <span class="section-label-text">Global Focus</span>
+    <span class="section-label-rule"></span>
+  </div>
+
+  <!-- Article 01 -->
+  <article class="article reveal">
+    <div class="article-num">01 — Leadership</div>
+    <h2 class="article-title">The Leadership Trust Crisis is No Longer Theoretical</h2>
+    <p class="article-deck">Systemic failure, AI governance scandals, and stressed pipelines are converging</p>
+
+    <p>Something significant has shifted in global leadership discourse this June. The World Economic Forum convened in Davos under the theme <em>'A Spirit of Dialogue'</em> — a theme that itself signals how fractured the conversation has become. WEF's Global Future Council on Leadership was explicit: this is not a human failure story. It is a systems failure story. The structures through which leaders are selected, trained, incentivised and succeeded are themselves broken.</p>
+
+    <p>The evidence is uncomfortable. According to DDI's Global Leadership Forecast, <strong>71% of leaders globally are under elevated stress</strong> — and 40% have considered stepping away from their roles entirely. Only 19% of managers report strong delegation skills. Leadership pipelines are thinning precisely at the moment that transformation is accelerating.</p>
+
+    <p>What is triggering this? Three forces: AI disruption eliminating the entry-level roles that traditionally produced the next generation of managers (Harvard research shows junior hiring dropped 80% per quarter at AI-adopting firms); leadership burnout described as <em>'quiet cracking'</em>; and a trust deficit so deep that even well-crafted communications are being rejected when employees detect AI involvement.</p>
+
+    <div class="callout">
+      "Evaluation processes too often mistake confidence for competence, charisma for integrity, and pedigree for preparedness." — WEF Global Future Council on Leadership, 2026
+    </div>
+
+    <div class="my-take">
+      <div class="my-take-label">My Take</div>
+      <p>Africa — and Kenya — cannot afford to import this crisis. Too many of our institutions already promote based on loyalty, not competence. If global leadership systems are now admitting this failure, it is time our boards, churches, SACCOs and NGOs examined their own succession processes with the same honesty.</p>
+    </div>
+  </article>
+
+  <!-- Article 02 -->
+  <article class="article reveal">
+    <div class="article-num">02 — Communication</div>
+    <h2 class="article-title">AI and the New Rules of Trust in Communication</h2>
+    <p class="article-deck">Authenticity is the new currency — and it cannot be automated</p>
+
+    <p>A remarkable pattern is emerging across global research in June 2026: the more organisations use AI to communicate, the less their people trust them. Studies from the University of Kansas confirm that when employees discover AI crafted a message — regardless of quality — trust collapses. Researchers call it <em>'contamination by association.'</em> The message becomes tainted simply by its origin.</p>
+
+    <p>BCG's 2026 research shows communications leaders who invest at least 8 hours per week building AI capability generate real value — yet over 60% plan to allocate less than 10% of their communications budget to AI. The gap between promise and practice is dangerous. As Fast Company's 2026 Brand Expectations Index found: only <strong>24% of people say frequent CEO visibility increases trust.</strong> Accountability, not amplification, is what builds credibility.</p>
+
+    <p>AI can draft. AI can monitor. AI can summarise. But AI cannot own a hard conversation. It cannot sit with an employee after a restructuring and say, 'I know this is painful.' When leaders use AI to avoid uncomfortable communication, they do not just lose efficiency — they lose authority. <strong>Leadership is presence, not polish.</strong></p>
+
+    <div class="callout">
+      "A communication strategy is not separate from an AI strategy. In many ways, it is the AI strategy." — Matt Domo, CEO, FifthVantage (May 2026)
+    </div>
+
+    <div class="my-take">
+      <div class="my-take-label">My Take</div>
+      <p>For faith-based organisations, SACCOs and NGOs in our context, this is both a warning and an opportunity. The temptation to automate membership communications, board updates and donor engagement is real. Resist it. Your constituents can tell the difference between an institution that speaks to them and one that broadcasts at them.</p>
+    </div>
+  </article>
+
+  <!-- Article 03 -->
+  <article class="article reveal">
+    <div class="article-num">03 — Governance</div>
+    <h2 class="article-title">Boards Under Scrutiny: The Governance Reckoning of 2026</h2>
+    <p class="article-deck">Directors under fire, AI literacy gaps, and the succession imperative</p>
+
+    <p>Global corporate governance is under unprecedented pressure. PwC's 2025 Annual Corporate Directors Survey found 55% of directors believe at least one board colleague should be replaced — the highest level ever recorded. Russell Reynolds Associates, in their 11th annual global governance survey drawing on 17 countries, identified five cross-border trends reshaping board agendas: AI oversight, board composition, CEO succession, sustainability accountability, and shareholder activism.</p>
+
+    <p>The AI governance question is defining 2026. According to Diligent Institute, only 4% of governance leaders globally say their GRC and financial systems are fully integrated. Boards that are ahead are deploying AI-powered governance platforms — but pairing them with what RRA calls <em>'disciplined human judgment.'</em></p>
+
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-value"><span>55</span>%</div>
+        <div class="stat-desc">of global directors say at least one board colleague should be replaced — highest level in PwC survey history</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-value"><span>4</span>%</div>
+        <div class="stat-desc">of governance leaders say their GRC &amp; financial systems are fully integrated for transactions (Diligent Institute, 2026)</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-value"><span>97</span>%</div>
+        <div class="stat-desc">of organisations face at least one major governance challenge in being transaction-ready</div>
+      </div>
+    </div>
+
+    <div class="my-take">
+      <div class="my-take-label">My Take</div>
+      <p>Governance reform is not coming to Africa as an external imposition. It is arriving through the lived cost of weak boards — organisations that collapse, SACCOs that fail depositors, churches that fracture after their founder departs. The global conversation is a mirror we should hold up to ourselves.</p>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- AFRICA SPOTLIGHT                               -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="africa" class="section-label reveal">
+    <span class="section-label-text gold">Africa Spotlight</span>
+    <span class="section-label-rule"></span>
+  </div>
+
+  <!-- Article 04 -->
+  <article class="article reveal">
+    <div class="article-num">04 — Elections &amp; Institutions</div>
+    <h2 class="article-title">Elections, Institutions and the Test of African Governance</h2>
+    <p class="article-deck">2026 is proving to be Africa's defining stress-test year</p>
+
+    <p>Africa is navigating a demanding electoral and institutional calendar in 2026. Chatham House describes a continent facing <em>'global uncertainty that demands regional leadership'</em> — yet the African Union's own credibility is under pressure. Amani Africa's analysis was blunt: the AU <em>'cannot afford leadership that confuses restraint with responsibility or equates neutrality with wisdom.'</em></p>
+
+    <p>Across the continent, 11 countries are holding elections this year. In Ethiopia, Prime Minister Abiy Ahmed's party is expected to sweep polls in June — but key opposition groups are boycotting. In Uganda, Museveni seeks a seventh term. In 4 of the 11 countries, sitting presidents have been in power for over 15 years.</p>
+
+    <p>Yet there are signals of renewal. At the <strong>Africa CEO Forum in Kigali, Rwanda</strong> in June 2026, IFC Managing Director Makhtar Diop delivered a defining message: Africa must scale or fall behind. He challenged the characterisation of Africa as a <em>'frontier market'</em> — positioning it instead as an emerging hub of innovation, entrepreneurship, digital transformation and investment. The prerequisite? <strong>Visionary leadership and sound governance.</strong></p>
+
+    <p>From 2–5 June 2026, <strong>Yiaga Africa</strong> and partners convened leadership programme curators, emerging leaders and creatives in Nairobi to explore African Leadership Philosophy and its role in shaping ethical governance and democratic renewal. This is the kind of indigenous knowledge-building that is essential for long-term institutional strength.</p>
+
+    <div class="callout">
+      "Without accompanying institutional reforms, access to bilateral financing can deepen long-term dependency and debt. Elections continue to be Africa's defining stress test for governance." — Chatham House, January 2026
+    </div>
+
+    <div class="my-take">
+      <div class="my-take-label">My Take</div>
+      <p>What Kigali, Gauteng and Nairobi have in common this June is a recognition that African institutions will not be reformed by outsiders. They will be reformed — or abandoned — by insiders. The question is whether those of us in leadership, governance and communications are building inside these institutions or just observing them from the outside.</p>
+    </div>
+  </article>
+
+  <!-- Article 05 -->
+  <article class="article reveal">
+    <div class="article-num">05 — Digital Governance</div>
+    <h2 class="article-title">Digital Parliaments and the Closing of the Civic Voice Gap</h2>
+    <p class="article-deck">Technology is reshaping who gets to participate in governance</p>
+
+    <p>The call for digital innovation in African governance is no longer aspirational — it is urgent. The <strong>19th CPA Africa Region Conference</strong> in Gauteng (16–20 June 2026), held under the theme <em>'Proactive Parliaments and Sustainable Development,'</em> placed digital transformation at the centre of parliamentary effectiveness. South Africa's NCOP Chairperson Refilwe Mtshweni-Tsipane called on African legislatures to embrace digital innovation to strengthen transparency and citizen participation.</p>
+
+    <p>Yet she was honest about the challenge: unequal access to digital infrastructure, particularly in rural communities, risks creating a two-tier democracy where only the connected are heard.</p>
+
+    <p>On June 3, African Union leaders stressed the urgent need for unity to advance Agenda 2063 — the continent's 50-year development blueprint. On June 4, the AU Commission and UNHCR launched the 9th Livingstone Syllabus Training to advance humanitarian governance across Africa.</p>
+
+    <p>Parliaments that deploy e-petitions without addressing digital literacy gaps may improve optics without improving representation. That is not governance reform. <strong>That is governance theatre.</strong></p>
+
+    <div class="my-take">
+      <div class="my-take-label">My Take</div>
+      <p>Communications and governance professionals across Africa must keep a dual question in focus: Does this digital initiative create real civic voice — or does it create the appearance of participation? For our work in SACCOs, NGOs and faith communities, member engagement platforms must be built around the least connected member, not the most connected.</p>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- KENYA WATCH                                    -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="kenya" class="section-label reveal">
+    <span class="section-label-text">Kenya Watch</span>
+    <span class="section-label-rule"></span>
+  </div>
+
+  <!-- Article 06 -->
+  <article class="article reveal">
+    <div class="article-num">06 — Three Fronts in June</div>
+    <h2 class="article-title">AI Governance, Youth Power and Accountability</h2>
+    <p class="article-deck">Kenya's governance and communications landscape in sharp relief</p>
+
+    <p>Kenya enters the second half of 2026 carrying the weight of unresolved tensions and the energy of genuine possibility. Three intersecting issues have dominated the country's leadership and governance discourse this month.</p>
+
+    <h4>Front One: AI Governance as a National Priority</h4>
+    <p>Kenya is accelerating a governance-led approach to artificial intelligence in its public sector. Following UNESCO and Oxford University's launch of a Massive Open Online Course on AI and Digital Transformation in Government — delivered through the Kenya School of Government — civil servants are beginning to translate learning into institutional practice. Kenya's <strong>National AI Strategy 2025–2030</strong> places the country among a small group of African nations actively architecting — rather than passively receiving — the AI governance agenda.</p>
+
+    <h4>Front Two: The Gen Z Reckoning</h4>
+    <p>June 25, 2026 marked one year since Kenya's Gen Z-led protests reshaped the country's political imagination. The anniversary brought renewed mobilisation from civil society and opposition groups. President Ruto's government faces a political communication challenge of significant proportions: a growing segment of the population — over <strong>70% of Kenyans are under 35</strong> — feels excluded, unheard and disconnected from political power. Daily Nation has been direct: public affairs in 2026 will hinge on credibility, honest communication and tangible delivery — not controlled narratives.</p>
+
+    <h4>Front Three: Institutional Accountability and Leadership Signals</h4>
+    <p>On June 26, 2026, President Ruto appointed former Meru Governor Kiraitu Murungi as Non-Executive Chairperson of the Competition Authority of Kenya — revoking the appointment of Charles Mahinda in the same notice. Meanwhile, President Ruto's public rebuke of dissenting MPs — reportedly calling them <em>"hawana akili"</em> — is a reminder that how leaders communicate is as important as what they decide.</p>
+
+    <div class="callout">
+      "Public affairs in Kenya in 2026 will be less about controlling narratives and more about earning trust and delivering on promises. Those who succeed will understand that public affairs is the bridge between leadership and legitimacy." — Daily Nation, December 2025
+    </div>
+
+    <div class="my-take">
+      <div class="my-take-label">My Take</div>
+      <p>Kenya is at a communications crossroads. Government, civil society, faith organisations and the private sector all face the same pressure: their constituents are better informed, more sceptical and less tolerant of mixed messaging than at any previous point. This is not a threat to good leaders — it is a gift. Accountability, properly communicated, is the most powerful leadership tool available.</p>
+    </div>
+  </article>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- REFLECTION                                     -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="reflection"></div>
+  <div class="reflection reveal">
+    <div class="reflection-label">The Architect's Reflection — June 2026</div>
+    <h3>One word dominated everything this month. Trust.</h3>
+    <p>Not as a soft value. Not as a motivational poster. As the single most measurable asset — or liability — that leaders, institutions and boards are being judged by in 2026.</p>
+    <p>At the global level, boards are being questioned for lacking the courage to refresh themselves. Leaders are being replaced — not because they failed at strategy, but because they failed at accountability. At the African level, the AU is being asked to move from rhetoric to action. At the Kenya level, a generation of young citizens is demanding to be spoken to honestly.</p>
+    <p>What does this mean for those of us who build leaders and institutions for a living? It means the work is more important than ever. The citizen who expects honest budget communication. The SACCO member who expects a board that governs, not just rubber-stamps. The congregation member who expects their leader to model what they preach. These are not unreasonable demands. They are the demands of maturing societies.</p>
+    <p class="motto">Communicate Clearly. Lead with Integrity. Govern with Purpose.</p>
+    <p class="byline">— Moses Wasamu | The Architect | Synergy Media</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- QUICK TAKES                                    -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="quicktakes"></div>
+  <div class="quick-takes reveal">
+    <div class="qt-title">June 2026 — Five Quick Takes</div>
+    <div class="qt-item">
+      <div class="qt-num">1</div>
+      <div class="qt-text">Trust is not built by visibility — it is built by accountability. Only 24% of people say frequent CEO visibility increases their trust <em>(Fast Company, 2026).</em></div>
+    </div>
+    <div class="qt-item">
+      <div class="qt-num">2</div>
+      <div class="qt-text">AI cannot automate courage. The most important leadership communication — the hard, honest, uncomfortable kind — must remain human.</div>
+    </div>
+    <div class="qt-item">
+      <div class="qt-num">3</div>
+      <div class="qt-text">Africa's governance future depends on African agency. External financing without institutional reform deepens dependency. That is the clear lesson from this month's continent-wide leadership conversations.</div>
+    </div>
+    <div class="qt-item">
+      <div class="qt-num">4</div>
+      <div class="qt-text">Kenya's Gen Z moment is permanent, not periodic. Any leadership communication strategy that does not centre young citizens is already obsolete.</div>
+    </div>
+    <div class="qt-item">
+      <div class="qt-num">5</div>
+      <div class="qt-text">Boards that cannot answer the succession question have no governance strategy. CEO succession planning is the single most important board accountability issue of 2026.</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="mag-footer">
+  <div class="brand">Synergy Media</div>
+  <div class="tagline">Building Leaders and Institutions Africa Can Trust</div>
+  <div>Communication · Leadership · Governance</div>
+  <div class="sig-line">The Trust Briefing · June 2026 · © Moses Wasamu / Synergy Media · Nairobi, Kenya</div>
+</footer>
+
+<script>
+  // ── Scroll reveal ──────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Copy link ──────────────────────────────────────────
+  function copyLink(btn) {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      const toast = document.getElementById('copyToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    });
+  }
+
+  // ── Active nav highlight on scroll ────────────────────
+  const sections = ['global','africa','kenya','reflection','quicktakes'];
+  const links = document.querySelectorAll('.toc-link');
+
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.style.borderBottomColor = 'transparent');
+        const active = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+        if (active) active.style.borderBottomColor = 'var(--navy)';
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) navObs.observe(el);
+  });
+</script>
+</body>
+</html>
